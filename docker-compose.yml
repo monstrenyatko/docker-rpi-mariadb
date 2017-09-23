@@ -1,0 +1,14 @@
+version: '2'
+services:
+  mariadb:
+    image: monstrenyatko/rpi-mariadb
+    container_name: mariadb
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=1
+    volumes:
+      - mariadb-data:/var/lib/mysql:rw
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+volumes:
+  mariadb-data:
