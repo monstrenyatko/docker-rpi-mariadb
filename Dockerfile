@@ -5,7 +5,7 @@ MAINTAINER Oleg Kovalenko <monstrenyatko@gmail.com>
 ENV LANG en_US.utf8
 
 RUN apk update && \
-    apk add --no-cache mariadb mariadb-client tzdata pwgen bash su-exec && \
+    apk add --no-cache mariadb mariadb-client tzdata pwgen bash su-exec shadow && \
     \
 # mimic gosu
     ln -s /sbin/su-exec /usr/bin/gosu && \
