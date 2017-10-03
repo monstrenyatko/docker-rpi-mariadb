@@ -30,7 +30,7 @@ set -e
 
 if [ -n "$MYSQL_GID" ]; then
 	groupmod --gid $MYSQL_GID mysql
-	usermod --gid $MYSQL_UID mysql
+	usermod --gid $MYSQL_GID mysql
 fi
 
 if [ -n "$MYSQL_UID" ]; then
