@@ -15,12 +15,14 @@ script:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   # tag and push
   - >
-    if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
       docker tag $REPO:$COMMIT $REPO:$TRAVIS_BUILD_NUMBER
       docker tag $REPO:$COMMIT $REPO:$TAG
-      docker push $REPO:$COMMIT
-      docker push $REPO:$TRAVIS_BUILD_NUMBER
+      if [ "$TRAVIS_BRANCH" == "master" ]; then
+        docker push $REPO:$COMMIT
+        docker push $REPO:$TRAVIS_BUILD_NUMBER
+      fi
       docker push $REPO:$TAG
     fi
 notifications:
