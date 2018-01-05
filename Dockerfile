@@ -1,24 +1,22 @@
-FROM hypriot/rpi-alpine:3.6
+FROM monstrenyatko/rpi-alpine:3.7
 
 MAINTAINER Oleg Kovalenko <monstrenyatko@gmail.com>
 
 ENV LANG en_US.utf8
 
-RUN apk update && \
+RUN apk update && apk upgrade && \
     apk add --no-cache mariadb mariadb-client tzdata pwgen bash su-exec shadow && \
-    \
 # mimic gosu
     ln -s /sbin/su-exec /usr/bin/gosu && \
-    \
+#
     mkdir -p /docker-entrypoint-initdb.d && \
-    \
 # enable external config directory
     mkdir -p /etc/mysql/conf.d && \
     echo $'\n''!includedir /etc/mysql/conf.d/' >> /etc/mysql/my.cnf && \
 # don't reverse lookup hostnames, they are usually another container
     sed -Ei 's/^(bind-address|log)/#&/' /etc/mysql/my.cnf && \
     echo '[mysqld]'$'\n''skip-host-cache'$'\n''skip-name-resolve' > /etc/mysql/conf.d/docker.cnf && \
-    \
+#
     rm -rf /tmp/* /var/tmp/* && \
     rm -rf /var/cache/apk/*
 
